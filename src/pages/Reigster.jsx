@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
     const [username, setUsername] = useState("");
@@ -28,9 +29,10 @@ const Register = () => {
         e.preventDefault();
         setShowCnfPass(!showCnfPass);
     };
+    const navigate = useNavigate();
     return (
         <div className="h-screen bg-[url('/images/phoneBg.jpg')] md:bg-[url('/images/desktopBg.jpg')] bg-bottom bg-cover relative">
-            <div className=" backdrop-blur-md rounded-xl ring-2 ring-gray-300/40 px-6 py-14 flex flex-col absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 md:w-1/3 items-center gap-7 hover:shadow-md shadow-white hover:backdrop-blur-lg hover:outline-1 outline-white transition-all ease-in duration-200 md:px-10 md:py-20">
+            <div className="font-serif backdrop-blur-md rounded-xl ring-2 ring-gray-300/40 px-6 py-14 flex flex-col absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 md:w-1/3 items-center gap-7 hover:shadow-md shadow-white hover:backdrop-blur-lg hover:outline-1 outline-white transition-all ease-in duration-200 md:px-10 md:py-20">
                 <p className=" text-2xl font-bold text-white">Register</p>
                 <form
                     className="flex-col gap-4 flex w-full"
@@ -87,9 +89,16 @@ const Register = () => {
                                 onClick={(e) => {
                                     setGender(e.target.value);
                                 }}
+                                className="cursor-pointer"
                                 id="male"
                             />
-                            <label for="male"> Male</label>
+                            <label
+                                for="male"
+                                className="text-white md:text-black cursor-pointer"
+                            >
+                                {" "}
+                                Male
+                            </label>
                         </div>
                         <div>
                             <input
@@ -100,9 +109,16 @@ const Register = () => {
                                 onClick={(e) => {
                                     setGender(e.target.value);
                                 }}
+                                className="cursor-pointer"
                                 id="female"
                             />
-                            <label for="female"> Female</label>
+                            <label
+                                for="female"
+                                className="text-white md:text-black cursor-pointer"
+                            >
+                                {" "}
+                                Female
+                            </label>
                         </div>
                     </div>
 
@@ -113,6 +129,16 @@ const Register = () => {
                         className="bg-white rounded-full py-2 cursor-pointer font-mono text-md font-light"
                     />
                 </form>
+                <p className="text-white font-mono text-sm">
+                    Already have an account?
+                    <span
+                        className="font-bold cursor-pointer"
+                        onClick={() => navigate("/")}
+                    >
+                        {" "}
+                        Login
+                    </span>
+                </p>
             </div>
         </div>
     );
