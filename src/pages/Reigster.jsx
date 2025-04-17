@@ -32,7 +32,7 @@ const Register = () => {
     const navigate = useNavigate();
     return (
         <div className="h-screen bg-[url('/images/phoneBg.jpg')] md:bg-[url('/images/desktopBg.jpg')] bg-bottom bg-cover relative">
-            <div className="font-serif backdrop-blur-md rounded-xl ring-2 ring-gray-300/40 px-6 py-14 flex flex-col absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 md:w-1/3 items-center gap-7 hover:shadow-md shadow-white hover:backdrop-blur-lg hover:outline-1 outline-white transition-all ease-in duration-200 md:px-10 md:py-20">
+            <div className="font-serif backdrop-blur-md rounded-xl ring-2 ring-gray-300/40 px-6 py-14 flex flex-col absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 max-w-[500px] items-center gap-7 hover:shadow-md shadow-white hover:backdrop-blur-lg hover:outline-1 outline-white transition-all ease-in duration-200 md:px-10 md:py-20">
                 <p className=" text-2xl font-bold text-white">Register</p>
                 <form
                     className="flex-col gap-4 flex w-full"
@@ -56,12 +56,12 @@ const Register = () => {
                             className="border-2 text-white md:text-black focus:border-white outline-0 w-full border-gray-50/40 rounded-full px-5 py-2"
                             placeholder="Password"
                         />
-                        <button
+                        <div
                             className="absolute top-1/2 -translate-y-1/2 right-5 cursor-pointer"
                             onClick={handleShowPassChange}
                         >
                             {showPass ? <FaEyeSlash /> : <FaEye />}
-                        </button>
+                        </div>
                     </div>
 
                     <div className="w-full relative">
@@ -72,12 +72,12 @@ const Register = () => {
                             className="border-2 text-white md:text-black focus:border-white outline-0 w-full border-gray-50/40 rounded-full px-5 py-2"
                             placeholder="Confirm Password"
                         />
-                        <button
+                        <div
                             className="absolute top-1/2 -translate-y-1/2 right-5 cursor-pointer"
                             onClick={handleShowCnfPassChange}
                         >
                             {showCnfPass ? <FaEyeSlash /> : <FaEye />}
-                        </button>
+                        </div>
                     </div>
                     <div className="flex gap-6">
                         <div>

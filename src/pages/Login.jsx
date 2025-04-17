@@ -8,6 +8,7 @@ const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [showPass, setShowPass] = useState("");
+    const [rem, setRem] = useState(false);
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(username + " " + password);
@@ -25,7 +26,7 @@ const Login = () => {
         relative"
         >
             <div
-                className="font-serif backdrop-blur-md rounded-xl ring-2 ring-gray-300/40 px-6 py-14 flex flex-col absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 md:w-1/3 items-center gap-7
+                className="font-serif backdrop-blur-md rounded-xl ring-2 ring-gray-300/40 px-6 py-14 flex flex-col absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4  max-w-[500px] items-center gap-7
                 hover:shadow-md shadow-white hover:backdrop-blur-lg
               hover:outline-1 outline-white transition-all ease-in duration-200 md:px-10 md:py-20"
             >
@@ -52,15 +53,26 @@ const Login = () => {
                             className="border-2 text-white md:text-black focus:border-white outline-0 w-full border-gray-50/40 rounded-full px-5 py-2"
                             placeholder="Password"
                         />
-                        <button
+                        <div
                             className="absolute top-1/2 -translate-y-1/2 right-5 cursor-pointer"
                             onClick={handleShowPassChange}
                         >
                             {showPass ? <FaEyeSlash /> : <FaEye />}
-                        </button>
+                        </div>
                     </div>
                     <div className="flex justify-between text-xs text-white font-bold">
-                        <p className="cursor-pointer">Remember me</p>
+                        <div className="cursor-pointer flex gap-2">
+                            <input
+                                type="checkbox"
+                                name="remMe"
+                                id="remMe"
+                                checked={rem}
+                                onClick={(e) => setRem(!rem)}
+                            />
+                            <label for="remMe" className="cursor-pointer">
+                                Remember me
+                            </label>
+                        </div>
                         <p className="cursor-pointer">Forgot Password?</p>
                     </div>
                     <input
