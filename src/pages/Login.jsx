@@ -1,13 +1,21 @@
 import React, { useState } from "react";
+import { FaUser } from "react-icons/fa";
+import { FaEye } from "react-icons/fa";
+import { FaEyeSlash } from "react-icons/fa6";
 
 const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [showPass, setShowPass] = useState("");
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(username + " " + password);
         setUsername("");
         setPassword("");
+    };
+    const handleShowPassChange = (e) => {
+        e.preventDefault();
+        setShowPass(!showPass);
     };
     return (
         <div
@@ -15,26 +23,37 @@ const Login = () => {
         relative"
         >
             <div
-                className=" backdrop-blur-md rounded-xl ring-2 ring-gray-300/40 px-14 py-14 flex flex-col absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 md:w-1/3 items-center gap-7
+                className=" backdrop-blur-md rounded-xl ring-2 ring-gray-300/40 px-6 py-14 flex flex-col absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 md:w-1/3 items-center gap-7
                 hover:shadow-md shadow-white hover:backdrop-blur-lg
-              hover:outline-1 outline-white transition-all ease-in duration-200 md:px-28 md:py-20"
+              hover:outline-1 outline-white transition-all ease-in duration-200 md:px-10 md:py-20"
             >
                 <p className=" text-2xl font-bold text-white">Login</p>
                 <form className="flex-col gap-4 flex" onSubmit={handleSubmit}>
-                    <input
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        type="text"
-                        className="border-2 focus:border-white outline-0 border-gray-50/40 rounded-full px-5 py-2"
-                        placeholder="Username"
-                    />
-                    <input
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        type="Password"
-                        className="border-2 focus:border-white outline-0  border-gray-50/40 rounded-full px-5 py-2"
-                        placeholder="Password"
-                    />
+                    <div className="w-full relative ">
+                        <input
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            type="text"
+                            className="border-2 text-white md:text-black focus:border-white outline-0 border-gray-50/40 rounded-full px-5 py-2 w-full"
+                            placeholder="Username"
+                        />
+                        <FaUser className="absolute top-1/2 -translate-y-1/2 right-5" />
+                    </div>
+                    <div className="w-full relative">
+                        <input
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            type={showPass ? "text" : "password"}
+                            className="border-2 text-white md:text-black focus:border-white outline-0 w-full border-gray-50/40 rounded-full px-5 py-2"
+                            placeholder="Password"
+                        />
+                        <button
+                            className="absolute top-1/2 -translate-y-1/2 right-5 cursor-pointer"
+                            onClick={handleShowPassChange}
+                        >
+                            {showPass ? <FaEyeSlash /> : <FaEye />}
+                        </button>
+                    </div>
                     <div className="flex justify-between text-xs text-white font-bold">
                         <p className="cursor-pointer">Remember me</p>
                         <p className="cursor-pointer">Forgot Password?</p>
