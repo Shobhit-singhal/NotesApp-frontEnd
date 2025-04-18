@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
@@ -11,15 +12,35 @@ const Register = () => {
     const [showPass, setShowPass] = useState(false);
     const [showCnfPass, setShowCnfPass] = useState(false);
     const [gender, setGender] = useState("");
+
+    const register = async (fonmUsername, formPassword, formGender) => {
+        const user = {
+            username,
+            password,
+            gender,
+        };
+        console.log("Hitting req");
+        let req = await axios.post(
+            "http://localhost:8080/public/register",
+            user
+        );
+        console.log("after hitting req");
+        console.log(req.data);
+    };
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(
             username + " " + password + " " + cnfPassword + " " + gender
         );
-        setUsername("");
-        setPassword("");
-        setCnfPassword("");
-        setGender("");
+        if (password === cnfPassword) {
+            register(username, password);
+            setUsername("");
+            setPassword("");
+            setCnfPassword("");
+            setGender("");
+        } else {
+            console.log("Confirm password doesnt match");
+        }
     };
     const handleShowPassChange = (e) => {
         e.preventDefault();
