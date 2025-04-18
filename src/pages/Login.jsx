@@ -14,6 +14,7 @@ const Login = () => {
         console.log(username + " " + password);
         setUsername("");
         setPassword("");
+        navigate("/notes");
     };
     const handleShowPassChange = (e) => {
         e.preventDefault();
