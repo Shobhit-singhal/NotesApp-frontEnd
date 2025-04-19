@@ -1,15 +1,49 @@
-import React, { useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import Note from "../componenets/Note";
 import Navbar from "../componenets/Navbar";
 import { FaSearch } from "react-icons/fa";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const UserUi = () => {
-  const [search, setSearch] = useState("");
-  const handleSubmit=(e)=>{
-    e.preventDefault();
-    setSearch("");
+    const [search, setSearch] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [notes, setNotes] = useState([]);
+    const navigate = useNavigate();
 
-  }
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setSearch("");
+    };
+    useEffect(() => {
+        const getData = async () => {
+            try {
+                setLoading(true);
+                let token = localStorage.getItem("jwt_token");
+                console.log(`Bearer ${token}`);
+                let res = await axios({
+                    method: "get",
+                    url: "http://localhost:8080/notes",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                console.log(res);
+                setNotes(res.data);
+            } catch (err) {
+                console.log(err);
+                if ((err.response.status = 401)) {
+                    localStorage.setItem("jwt_token", "");
+
+                    navigate("/");
+                }
+            } finally {
+                setLoading(false);
+            }
+        };
+        getData();
+    }, []);
+
     return (
         <div
             className="min-h-screen w-full"
@@ -26,11 +60,14 @@ const UserUi = () => {
                     <div className="text-xl text-white mt-3 bg-slate-900/70 w-full text-center py-2">
                         Your Notes
                     </div>
-                    <form className="h-9 mt-3 w-full flex gap-3" onSubmit={handleSubmit}>
+                    <form
+                        className="h-9 mt-3 w-full flex gap-3"
+                        onSubmit={handleSubmit}
+                    >
                         <input
                             type="text"
                             value={search}
-                            onChange={(e)=>setSearch(e.target.value)}
+                            onChange={(e) => setSearch(e.target.value)}
                             className="bg-white px-5 rounded-full outline-0 flex-1 "
                             placeholder="Search"
                         />
@@ -39,24 +76,21 @@ const UserUi = () => {
                         </button>
                     </form>
                     <div className="flex flex-wrap w-full gap-3 justify-center py-6">
-                        <Note title="title" date="date" content="content" />
-                        <Note title="title" date="date" content="content" />
-                        <Note title="title" date="date" content="content" />
-                        <Note title="title" date="date" content="content" />
-                        <Note title="title" date="date" content="content" />
-                        <Note title="title" date="date" content="content" />
-                        <Note title="title" date="date" content="content" />
-                        <Note title="title" date="date" content="content" />
-                        <Note title="title" date="date" content="content" />
-                        <Note title="title" date="date" content="content" />
-                        <Note title="title" date="date" content="content" />
-                        <Note title="title" date="date" content="content" />
-                        <Note title="title" date="date" content="content" />
-                        <Note title="title" date="date" content="content" />
-                        <Note title="title" date="date" content="content" />
-                        <Note title="title" date="date" content="content" />
-                        <Note title="title" date="date" content="content" />
-                        <Note title="title" date="date" content="content" />
+                        {!loading &&
+                            (notes.length > 0 ? (
+                                notes.map((note, idx) => (
+                                    <Note
+                                        key={idx}
+                                        title={note.title}
+                                        content={note.content}
+                                        date={note.date}
+                                    />
+                                ))
+                            ) : (
+                                <p className="text-white text-xl font-bold leading-loose my-10">
+                                    No notes found{" "}
+                                </p>
+                            ))}
                     </div>
                 </div>
             </div>

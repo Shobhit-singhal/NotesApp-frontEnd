@@ -19,7 +19,8 @@ const Login = () => {
                 let res = await login();
                 setUsername("");
                 setPassword("");
-                localStorage.setItem("jwt_Token", res.data.token);
+                localStorage.setItem("jwt_token", res.data.token);
+                console.log(localStorage.getItem("jwt_token"));
                 navigate("/notes");
             } else {
                 console.log("Invalid data");
@@ -90,7 +91,7 @@ const Login = () => {
                                 checked={rem}
                                 onChange={(e) => setRem(!rem)}
                             />
-                            <label for="remMe" className="cursor-pointer">
+                            <label htmlFor="remMe" className="cursor-pointer">
                                 Remember me
                             </label>
                         </div>

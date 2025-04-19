@@ -147,7 +147,7 @@ const Register = () => {
                                 id="male"
                             />
                             <label
-                                for="male"
+                                htmlFor="male"
                                 className="text-white md:text-black cursor-pointer"
                             >
                                 {" "}
@@ -167,7 +167,7 @@ const Register = () => {
                                 id="female"
                             />
                             <label
-                                for="female"
+                                htmlFor="female"
                                 className="text-white md:text-black cursor-pointer"
                             >
                                 {" "}

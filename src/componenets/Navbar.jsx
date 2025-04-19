@@ -16,7 +16,6 @@ const Navbar = () => {
         let lastScrollY = window.scrollY;
 
         const handleScroll = (e) => {
-            console.log(e);
             const currentScrollY = window.scrollY;
 
             if (currentScrollY > lastScrollY) {
