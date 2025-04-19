@@ -3,6 +3,7 @@ import Note from "../componenets/Note";
 import Navbar from "../componenets/Navbar";
 import { FaSearch } from "react-icons/fa";
 import axios from "axios";
+import { FaPlus } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 
 const UserUi = () => {
@@ -10,10 +11,15 @@ const UserUi = () => {
     const [loading, setLoading] = useState(false);
     const [notes, setNotes] = useState([]);
     const navigate = useNavigate();
+    const [name, setName] = useState("guest");
 
     const handleSubmit = (e) => {
         e.preventDefault();
         setSearch("");
+    };
+    const handleAdd = (e) => {
+        e.preventDefault();
+        console.log("Add clicked");
     };
     useEffect(() => {
         const getData = async () => {
@@ -44,6 +50,32 @@ const UserUi = () => {
         getData();
     }, []);
 
+    useEffect(() => {
+        const getUsername = async () => {
+            try {
+                let token = localStorage.getItem("jwt_token");
+                let res = await axios({
+                    method: "get",
+                    url: "http://localhost:8080/user/info",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                console.log(res.data);
+                setName(res.data.username);
+            } catch (err) {
+                console.log(err);
+                if ((err.response.status = 401)) {
+                    localStorage.setItem("jwt_token", "");
+
+                    navigate("/");
+                }
+            }
+        };
+
+        getUsername();
+    }, []);
+
     return (
         <div
             className="min-h-screen w-full"
@@ -54,7 +86,10 @@ const UserUi = () => {
             <div className="w-full max-w-[700px] backdrop-blur-[100px] hover:shadow-md shadow-gray-400 m-auto flex flex-col font-serif items-center rounded-xl relative">
                 <Navbar />
                 <p className="text-white text-2xl mt-5 font-bold">
-                    Welcome User!
+                    Welcome{" "}
+                    <span className="text-yellow-500">
+                        {name.toUpperCase()}
+                    </span>
                 </p>
                 <div className="w-full bg-slate-900/60 m-2 rounded-xl flex flex-col mt-4 items-center px-4">
                     <div className="text-xl text-white mt-3 bg-slate-900/70 w-full text-center py-2">
@@ -92,6 +127,12 @@ const UserUi = () => {
                                 </p>
                             ))}
                     </div>
+                </div>
+                <div
+                    className="absolute bottom-5 right-5 h-14 w-14 flex items-center justify-center rounded-full bg-orange-300 hover:bg-orange-500 hover:text-white hover:outline-1 hover:scale-105  cursor-pointer"
+                    onClick={handleAdd}
+                >
+                    <FaPlus className="text-xl" />
                 </div>
             </div>
         </div>
