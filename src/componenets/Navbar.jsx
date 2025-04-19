@@ -69,7 +69,7 @@ const Navbar = () => {
                     To do
                 </NavLink>
                 <NavLink
-                    to="/register"
+                    to="/login"
                     className={({ isActive }) =>
                         `${
                             isActive
@@ -78,7 +78,7 @@ const Navbar = () => {
                         } hover:bg-slate-600/30`
                     }
                 >
-                    More
+                    Log out
                 </NavLink>
             </ul>
         </div>

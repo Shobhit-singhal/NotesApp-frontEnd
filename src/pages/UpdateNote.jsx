@@ -47,8 +47,8 @@ const UpdateNote = () => {
                 content,
             };
             let res = await axios({
-                method: "post",
-                url: "http://localhost:8080/notes",
+                method: "put",
+                url: `http://localhost:8080/notes/id/${params.id}`,
 
                 headers: {
                     Authorization: `Bearer ${token}`,
