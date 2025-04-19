@@ -18,7 +18,7 @@ const UserUi = () => {
     };
     const handleAdd = (e) => {
         e.preventDefault();
-        console.log("Add clicked");
+        navigate("/add")
     };
 
     useEffect(() => {
@@ -45,7 +45,12 @@ const UserUi = () => {
                 setLoading(false);
             }
         };
-        getData();
+        const debounceTimeout = setTimeout(() => {
+            getData();
+        }, 500);
+        return () => {
+            clearTimeout(debounceTimeout);
+        };
     }, [search]);
 
     useEffect(() => {
@@ -63,7 +68,7 @@ const UserUi = () => {
                 setName(res.data.username);
             } catch (err) {
                 console.log(err);
-                if ((err.response.status = 401)) {
+                if ((err.response.status == 401)) {
                     localStorage.setItem("jwt_token", "");
 
                     navigate("/login");
