@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
@@ -9,18 +10,37 @@ const Login = () => {
     const [password, setPassword] = useState("");
     const [showPass, setShowPass] = useState("");
     const [rem, setRem] = useState(false);
-    const handleSubmit = (e) => {
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(username + " " + password);
-        setUsername("");
-        setPassword("");
-        navigate("/notes");
+        try {
+            if (username.trim() != "" && password.trim() != null) {
+                let res = await login();
+                setUsername("");
+                setPassword("");
+                localStorage.setItem("jwt_Token", res.data.token);
+                navigate("/notes");
+            } else {
+                console.log("Invalid data");
+            }
+        } catch (err) {
+            console.log(err);
+        }
     };
     const handleShowPassChange = (e) => {
         e.preventDefault();
         setShowPass(!showPass);
     };
-    const navigate = useNavigate();
+    const login = async () => {
+        const user = { username, password };
+        const data = await axios.post(
+            "http://localhost:8080/public/login",
+            user
+        );
+        return data;
+    };
+
     return (
         <div
             className="h-screen bg-[url('/images/phoneBg.jpg')] md:bg-[url('/images/desktopBg.jpg')] bg-bottom bg-cover
@@ -68,7 +88,7 @@ const Login = () => {
                                 name="remMe"
                                 id="remMe"
                                 checked={rem}
-                                onClick={(e) => setRem(!rem)}
+                                onChange={(e) => setRem(!rem)}
                             />
                             <label for="remMe" className="cursor-pointer">
                                 Remember me

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
+import { SiOutline } from "react-icons/si";
 import { useNavigate } from "react-router-dom";
 
 const Register = () => {
@@ -12,34 +13,67 @@ const Register = () => {
     const [showPass, setShowPass] = useState(false);
     const [showCnfPass, setShowCnfPass] = useState(false);
     const [gender, setGender] = useState("");
+    const [validUsername, setValidUsername] = useState(true);
+    const [validPasswrod, setValidPasswrod] = useState(true);
+    const [validCnfPasswrod, setValidCnfPasswrod] = useState(true);
+    const [validGender, setValidGender] = useState(true);
+    const navigate = useNavigate();
 
-    const register = async (fonmUsername, formPassword, formGender) => {
+    const register = async () => {
         const user = {
             username,
             password,
             gender,
         };
-        console.log("Hitting req");
         let req = await axios.post(
             "http://localhost:8080/public/register",
             user
         );
-        console.log("after hitting req");
-        console.log(req.data);
+        return req;
     };
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(
-            username + " " + password + " " + cnfPassword + " " + gender
-        );
-        if (password === cnfPassword) {
-            register(username, password);
-            setUsername("");
-            setPassword("");
-            setCnfPassword("");
-            setGender("");
-        } else {
-            console.log("Confirm password doesnt match");
+    const clearData = () => {
+        setUsername("");
+        setPassword("");
+        setCnfPassword("");
+        setGender("");
+    };
+    const validateForm = () => {
+        let isValid = true;
+        if (username.trim() == "") {
+            setValidUsername(false);
+            isValid = false;
+        }
+        if (password.trim() == "") {
+            setValidPasswrod(false);
+            isValid = false;
+        }
+        if (cnfPassword.trim() == "" || password != cnfPassword) {
+            setValidCnfPasswrod(false);
+            isValid = false;
+        }
+        if (gender.trim == "") {
+            setValidGender(false);
+            isValid = false;
+        }
+        return isValid;
+    };
+    const handleSubmit = async (e) => {
+        try {
+            e.preventDefault();
+            if (validateForm()) {
+                e.preventDefault();
+                let res = await register();
+                clearData();
+                console.log(res);
+                navigate("/");
+            }
+        } catch (err) {
+            if (err.response && err.response.status === 409) {
+                alert("Username already taken!");
+            } else {
+                alert("Something went wrong");
+                console.log(err);
+            }
         }
     };
     const handleShowPassChange = (e) => {
@@ -50,7 +84,6 @@ const Register = () => {
         e.preventDefault();
         setShowCnfPass(!showCnfPass);
     };
-    const navigate = useNavigate();
     return (
         <div className="h-screen bg-[url('/images/phoneBg.jpg')] md:bg-[url('/images/desktopBg.jpg')] bg-bottom bg-cover relative">
             <div className="font-serif backdrop-blur-md rounded-xl ring-2 ring-gray-300/40 px-6 py-14 flex flex-col absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 max-w-[500px] items-center gap-7 hover:shadow-md shadow-white hover:backdrop-blur-lg hover:outline-1 outline-white transition-all ease-in duration-200 md:px-10 md:py-20">
@@ -107,7 +140,7 @@ const Register = () => {
                                 name="gender"
                                 value="male"
                                 checked={gender === "male"}
-                                onClick={(e) => {
+                                onChange={(e) => {
                                     setGender(e.target.value);
                                 }}
                                 className="cursor-pointer"
@@ -127,7 +160,7 @@ const Register = () => {
                                 name="gender"
                                 value="female"
                                 checked={gender === "female"}
-                                onClick={(e) => {
+                                onChange={(e) => {
                                     setGender(e.target.value);
                                 }}
                                 className="cursor-pointer"
