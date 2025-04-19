@@ -65,7 +65,7 @@ const Register = () => {
                 let res = await register();
                 clearData();
                 console.log(res);
-                navigate("/");
+                navigate("/login");
             }
         } catch (err) {
             if (err.response && err.response.status === 409) {
@@ -187,7 +187,7 @@ const Register = () => {
                     Already have an account?
                     <span
                         className="font-bold cursor-pointer"
-                        onClick={() => navigate("/")}
+                        onClick={() => navigate("/login")}
                     >
                         {" "}
                         Login

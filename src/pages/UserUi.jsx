@@ -10,26 +10,29 @@ const UserUi = () => {
     const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(false);
     const [notes, setNotes] = useState([]);
-    const navigate = useNavigate();
     const [name, setName] = useState("guest");
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setSearch("");
     };
     const handleAdd = (e) => {
         e.preventDefault();
         console.log("Add clicked");
     };
+
     useEffect(() => {
         const getData = async () => {
             try {
-                setLoading(true);
                 let token = localStorage.getItem("jwt_token");
-                console.log(`Bearer ${token}`);
+                setLoading(true);
+                const url =
+                    search.trim() == ""
+                        ? "http://localhost:8080/notes"
+                        : `http://localhost:8080/notes/${search}`;
                 let res = await axios({
                     method: "get",
-                    url: "http://localhost:8080/notes",
+                    url: url,
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -38,17 +41,12 @@ const UserUi = () => {
                 setNotes(res.data);
             } catch (err) {
                 console.log(err);
-                if ((err.response.status = 401)) {
-                    localStorage.setItem("jwt_token", "");
-
-                    navigate("/");
-                }
             } finally {
                 setLoading(false);
             }
         };
         getData();
-    }, []);
+    }, [search]);
 
     useEffect(() => {
         const getUsername = async () => {
@@ -68,7 +66,7 @@ const UserUi = () => {
                 if ((err.response.status = 401)) {
                     localStorage.setItem("jwt_token", "");
 
-                    navigate("/");
+                    navigate("/login");
                 }
             }
         };

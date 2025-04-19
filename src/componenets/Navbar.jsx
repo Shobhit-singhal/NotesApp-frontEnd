@@ -45,7 +45,7 @@ const Navbar = () => {
             </div>
             <ul className="flex gap-5">
                 <NavLink
-                    to="/notes"
+                    to="/"
                     className={({ isActive }) =>
                         `${
                             isActive
@@ -57,7 +57,7 @@ const Navbar = () => {
                     Notes
                 </NavLink>
                 <NavLink
-                    to="/"
+                    to="/login"
                     className={({ isActive }) =>
                         `${
                             isActive

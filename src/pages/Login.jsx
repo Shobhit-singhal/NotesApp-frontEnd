@@ -21,7 +21,7 @@ const Login = () => {
                 setPassword("");
                 localStorage.setItem("jwt_token", res.data.token);
                 console.log(localStorage.getItem("jwt_token"));
-                navigate("/notes");
+                navigate("/");
             } else {
                 console.log("Invalid data");
             }
