@@ -4,13 +4,14 @@ import Navbar from "../componenets/Navbar";
 import { FaSearch } from "react-icons/fa";
 import axios from "axios";
 import { FaPlus } from "react-icons/fa6";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-const AddNote = () => {
+const UpdateNote = () => {
     const [name, setName] = useState("guest");
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const navigate = useNavigate();
+    let params = useParams();
 
     useEffect(() => {
         const getUsername = async () => {
@@ -38,7 +39,7 @@ const AddNote = () => {
         getUsername();
     }, []);
 
-    const addNote = async () => {
+    const updateNote = async () => {
         try {
             let token = localStorage.getItem("jwt_token");
             let note = {
@@ -64,13 +65,33 @@ const AddNote = () => {
         e.preventDefault();
         console.log(title, " ", content);
         if (title.trim() != "") {
-            let data = await addNote();
+            let data = await updateNote();
             console.log(data);
             setTitle("");
             setContent("");
             navigate("/");
         }
     };
+    useEffect(() => {
+        const getNote = async () => {
+            try {
+                let token = localStorage.getItem("jwt_token");
+                let res = await axios({
+                    method: "get",
+                    url: `http://localhost:8080/notes/id/${params.id}`,
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                console.log(res);
+                setContent(res.data.content);
+                setTitle(res.data.title);
+            } catch (err) {
+                console.log(err);
+            }
+        };
+        getNote();
+    }, []);
 
     return (
         <div
@@ -89,7 +110,7 @@ const AddNote = () => {
                 </p>
                 <div className="w-full bg-slate-900/60 m-2 rounded-xl flex flex-col mt-4 items-center px-4">
                     <div className="text-xl text-white mt-3 bg-slate-900/70 w-full text-center py-2">
-                        Add a Note
+                        Update Note
                     </div>
                     <form className="w-full my-14 flex flex-col gap-5 ">
                         <input
@@ -107,7 +128,7 @@ const AddNote = () => {
                         />
                         <input
                             type="submit"
-                            value="Add note"
+                            value="Update note"
                             className="bg-blue-600 text-white text-xl tracking-wider rounded-2xl py-2 cursor-pointer"
                             onClick={handleSubmit}
                         />
@@ -118,4 +139,4 @@ const AddNote = () => {
     );
 };
 
-export default AddNote;
+export default UpdateNote;

@@ -18,7 +18,7 @@ const UserUi = () => {
     };
     const handleAdd = (e) => {
         e.preventDefault();
-        navigate("/add")
+        navigate("/add");
     };
 
     useEffect(() => {
@@ -38,6 +38,7 @@ const UserUi = () => {
                     },
                 });
                 console.log(res);
+                console.log(res.data);
                 setNotes(res.data);
             } catch (err) {
                 console.log(err);
@@ -68,7 +69,7 @@ const UserUi = () => {
                 setName(res.data.username);
             } catch (err) {
                 console.log(err);
-                if ((err.response.status == 401)) {
+                if (err.response.status == 401) {
                     localStorage.setItem("jwt_token", "");
 
                     navigate("/login");
@@ -119,9 +120,17 @@ const UserUi = () => {
                                 notes.map((note, idx) => (
                                     <Note
                                         key={idx}
+                                        id={note.id}
                                         title={note.title}
                                         content={note.content}
                                         date={note.date}
+                                        onDelete={(id) => {
+                                            setNotes((prevNote) =>
+                                                prevNote.filter(
+                                                    (n) => n.id !== id
+                                                )
+                                            );
+                                        }}
                                     />
                                 ))
                             ) : (

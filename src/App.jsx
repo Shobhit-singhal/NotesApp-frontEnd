@@ -4,6 +4,7 @@ import Register from "./pages/Reigster";
 import { Route, Routes } from "react-router-dom";
 import UserUi from "./pages/UserUi";
 import AddNote from "./pages/AddNote";
+import UpdateNote from "./pages/UpdateNote";
 
 const App = () => {
     return (
@@ -13,6 +14,7 @@ const App = () => {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/add" element={<AddNote />} />
+                <Route path="/update/:id" element={<UpdateNote />} />
             </Routes>
         </div>
     );
