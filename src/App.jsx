@@ -5,6 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import UserUi from "./pages/UserUi";
 import AddNote from "./pages/AddNote";
 import UpdateNote from "./pages/UpdateNote";
+import ToDoFront from "./pages/ToDoFront";
 
 const App = () => {
     return (
@@ -15,6 +16,7 @@ const App = () => {
                 <Route path="/register" element={<Register />} />
                 <Route path="/add" element={<AddNote />} />
                 <Route path="/update/:id" element={<UpdateNote />} />
+                <Route path="/todo" element={<ToDoFront />} />
             </Routes>
         </div>
     );

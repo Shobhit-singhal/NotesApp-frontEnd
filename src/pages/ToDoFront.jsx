@@ -6,12 +6,12 @@ import axios from "axios";
 import { FaPlus } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import UserGreet from "../componenets/UserGreet";
+import ToDo from "../componenets/ToDo";
 
-const UserUi = () => {
+const ToDoFront = () => {
     const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(false);
-    const [notes, setNotes] = useState([]);
-    const [name, setName] = useState("guest");
+    const [todos, setTodos] = useState([]);
     const navigate = useNavigate();
 
     const handleSubmit = (e) => {
@@ -25,35 +25,28 @@ const UserUi = () => {
     useEffect(() => {
         const getData = async () => {
             try {
-                let token = localStorage.getItem("jwt_token");
                 setLoading(true);
-                const url =
-                    search.trim() == ""
-                        ? "http://localhost:8080/notes"
-                        : `http://localhost:8080/notes/${search}`;
+                let token = localStorage.getItem("jwt_token");
                 let res = await axios({
                     method: "get",
-                    url: url,
+                    url: "http://localhost:8080/todo",
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
                 });
                 console.log(res);
-                console.log(res.data);
-                setNotes(res.data);
+                setTodos(res.data);
             } catch (err) {
                 console.log(err);
+                if (err.status == 401) {
+                    navigate("/login");
+                }
             } finally {
                 setLoading(false);
             }
         };
-        const debounceTimeout = setTimeout(() => {
-            getData();
-        }, 500);
-        return () => {
-            clearTimeout(debounceTimeout);
-        };
-    }, [search]);
+        getData();
+    }, []);
 
     return (
         <div
@@ -67,36 +60,21 @@ const UserUi = () => {
                 <UserGreet />
                 <div className="w-full bg-slate-900/60 m-2 rounded-xl flex flex-col mt-4 items-center px-4">
                     <div className="text-xl text-white mt-3 bg-slate-900/70 w-full text-center py-2">
-                        Your Notes
+                        Your To-Dos
                     </div>
-                    <form
-                        className="h-9 mt-3 w-full flex gap-3"
-                        onSubmit={handleSubmit}
-                    >
-                        <input
-                            type="text"
-                            value={search}
-                            onChange={(e) => setSearch(e.target.value)}
-                            className="bg-white px-5 rounded-full outline-0 flex-1 "
-                            placeholder="Search"
-                        />
-                        <button className="h-10 w-10 bg-blue-500 text-white  flex items-center justify-center rounded-full text-lg cursor-pointer">
-                            <FaSearch />
-                        </button>
-                    </form>
                     <div className="flex flex-wrap w-full gap-3 justify-center py-6">
                         {!loading &&
-                            (notes.length > 0 ? (
-                                notes.map((note, idx) => (
-                                    <Note
+                            (todos.length > 0 ? (
+                                todos.map((todo, idx) => (
+                                    <ToDo
                                         key={idx}
-                                        id={note.id}
-                                        title={note.title}
-                                        content={note.content}
-                                        date={note.date}
+                                        id={todo.id}
+                                        task={todo.task}
+                                        // isCompleted={true}
+                                        isCompleted={todo.isCompleted}
                                         onDelete={(id) => {
-                                            setNotes((prevNote) =>
-                                                prevNote.filter(
+                                            setTodos((prevTodo) =>
+                                                prevTodo.filter(
                                                     (n) => n.id !== id
                                                 )
                                             );
@@ -105,7 +83,7 @@ const UserUi = () => {
                                 ))
                             ) : (
                                 <p className="text-white text-xl font-bold leading-loose my-10">
-                                    No notes found{" "}
+                                    No todos found{" "}
                                 </p>
                             ))}
                     </div>
@@ -121,4 +99,4 @@ const UserUi = () => {
     );
 };
 
-export default UserUi;
+export default ToDoFront;

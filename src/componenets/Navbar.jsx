@@ -57,7 +57,7 @@ const Navbar = () => {
                     Notes
                 </NavLink>
                 <NavLink
-                    to="/login"
+                    to="/todo"
                     className={({ isActive }) =>
                         `${
                             isActive
