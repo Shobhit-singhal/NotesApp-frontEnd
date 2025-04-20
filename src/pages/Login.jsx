@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 
 const Login = () => {
     const [errorLogging, setErrorLoggin] = useState(false);
-    const [showPass, setShowPass] = useState("");
+    const [showPass, setShowPass] = useState(false);
     const [rem, setRem] = useState(false);
     const navigate = useNavigate();
     const {

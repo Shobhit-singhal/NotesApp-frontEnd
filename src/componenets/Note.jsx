@@ -51,9 +51,11 @@ const Note = ({ id, title, date, content, onDelete }) => {
                 </div>
             </div>
             <p className="mt-0 leading-2 mb-3 text-xs text-gray-500">{date}</p>
-            <p className="px-2 py-3 bg-zinc-700 rounded-xl overflow-hidden line-clamp-8">
-                {content}
-            </p>
+            <textarea
+                disabled={true}
+                className="resize-none px-2 py-3 bg-zinc-700 rounded-xl overflow-hidden overflow-ellipsis line-clamp-3 h-22 "
+                value={content}
+            />
         </div>
     );
 };
