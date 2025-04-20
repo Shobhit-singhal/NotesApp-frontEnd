@@ -9,17 +9,29 @@ import UserGreet from "../componenets/UserGreet";
 import ToDo from "../componenets/ToDo";
 
 const ToDoFront = () => {
-    const [search, setSearch] = useState("");
+    const [task, setTask] = useState("");
     const [loading, setLoading] = useState(false);
     const [todos, setTodos] = useState([]);
     const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleAdd = async (e) => {
         e.preventDefault();
-    };
-    const handleAdd = (e) => {
-        e.preventDefault();
-        navigate("/add");
+        try {
+            let token = localStorage.getItem("jwt_token");
+            let res = await axios({
+                method: "post",
+                url: "http://localhost:8080/todo",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+                data: { task },
+            });
+            console.log(res);
+            setTodos((prevTodo) => [...prevTodo, res.data]);
+        } catch (err) {
+            console.log(err);
+        }
     };
 
     useEffect(() => {
@@ -62,6 +74,25 @@ const ToDoFront = () => {
                     <div className="text-xl text-white mt-3 bg-slate-900/70 w-full text-center py-2">
                         Your To-Dos
                     </div>
+                    <form
+                        onSubmit={handleAdd}
+                        className=" mt-4 gap-3 flex justify-between bg-white w-full  py-2 rounded-md relative"
+                    >
+                        <input
+                            type="text"
+                            placeholder="Enter New To Do"
+                            className="px-5 outline-0  flex-1"
+                            value={task}
+                            onChange={(e) => setTask(e.target.value)}
+                        />
+                        <button
+                            className="mr-5 flex items-center h-8 w-8  justify-center  rounded-md cursor-pointer bg-blue-400 "
+                            name=""
+                            id=""
+                        >
+                            <FaPlus className="text-lg" />
+                        </button>
+                    </form>
                     <div className="flex flex-wrap w-full gap-3 justify-center py-6">
                         {!loading &&
                             (todos.length > 0 ? (
@@ -70,12 +101,24 @@ const ToDoFront = () => {
                                         key={idx}
                                         id={todo.id}
                                         task={todo.task}
-                                        // isCompleted={true}
-                                        isCompleted={todo.isCompleted}
+                                        isCompleted={todo.completed}
                                         onDelete={(id) => {
                                             setTodos((prevTodo) =>
                                                 prevTodo.filter(
                                                     (n) => n.id !== id
+                                                )
+                                            );
+                                        }}
+                                        onUpdate={(id) => {
+                                            setTodos((prevTodo) =>
+                                                prevTodo.map((todo) =>
+                                                    todo.id !== id
+                                                        ? todo
+                                                        : {
+                                                              ...todo,
+                                                              completed:
+                                                                  !todo.completed,
+                                                          }
                                                 )
                                             );
                                         }}
@@ -87,12 +130,6 @@ const ToDoFront = () => {
                                 </p>
                             ))}
                     </div>
-                </div>
-                <div
-                    className="absolute bottom-5 right-5 h-14 w-14 flex items-center justify-center rounded-full bg-orange-300 hover:bg-orange-500 hover:text-white hover:outline-1 hover:scale-105  cursor-pointer"
-                    onClick={handleAdd}
-                >
-                    <FaPlus className="text-xl" />
                 </div>
             </div>
         </div>

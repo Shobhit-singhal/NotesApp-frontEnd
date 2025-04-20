@@ -1,16 +1,45 @@
 import { MdDelete } from "react-icons/md";
 import React from "react";
+import axios from "axios";
 
-const ToDo = ({ id, task, isCompleted, onDelete }) => {
+const ToDo = ({ id, task, isCompleted, onDelete, onUpdate }) => {
     const completed = "bg-[#5ad846]";
     const notCompleted = "bg-[#f26262]";
 
-    const handleDelete = (e) => {
+    const handleDelete = async (e) => {
         e.stopPropagation();
         console.log("Delete for id: ", id);
+        try {
+            let token = localStorage.getItem("jwt_token");
+            let res = await axios({
+                method: "delete",
+                url: `http://localhost:8080/todo/${id}`,
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            console.log(res);
+            onDelete(id);
+        } catch (err) {
+            console.log(err);
+        }
     };
-    const handleUpdate = (e) => {
+    const handleUpdate = async (e) => {
         console.log("Update for id: ", id);
+        try {
+            let token = localStorage.getItem("jwt_token");
+            let res = await axios({
+                method: "put",
+                url: `http://localhost:8080/todo/${id}`,
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            console.log(res);
+            onUpdate(id);
+        } catch (err) {
+            console.log(err);
+        }
     };
     return (
         <div
