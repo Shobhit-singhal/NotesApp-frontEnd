@@ -63,7 +63,7 @@ const AddNote = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(title, " ", content);
-        if (title.trim() != "") {
+        if (title.trim() != "" && content.trim() != "") {
             let data = await addNote();
             console.log(data);
             setTitle("");

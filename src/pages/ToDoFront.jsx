@@ -29,6 +29,7 @@ const ToDoFront = () => {
             });
             console.log(res);
             setTodos((prevTodo) => [...prevTodo, res.data]);
+            setTask("");
         } catch (err) {
             console.log(err);
         }

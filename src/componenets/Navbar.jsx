@@ -34,7 +34,7 @@ const Navbar = () => {
         <div
             className={` w-full flex justify-between rounded-t-xl text-white text-lg py-1 px-4 sticky top-0 ${
                 showNavbar ? "translate-y-0" : "-translate-y-full"
-            } transition-all ease-it duration-200`}
+            } transition-all ease-it duration-200 z-20`}
             style={style}
         >
             <div
