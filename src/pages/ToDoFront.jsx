@@ -7,10 +7,11 @@ import { FaPlus } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import UserGreet from "../componenets/UserGreet";
 import ToDo from "../componenets/ToDo";
+import Spinner from "../componenets/Spinner";
 
 const ToDoFront = () => {
     const [task, setTask] = useState("");
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [todos, setTodos] = useState([]);
     const navigate = useNavigate();
 
@@ -84,6 +85,7 @@ const ToDoFront = () => {
                             placeholder="Enter New To Do"
                             className="px-5 outline-0  flex-1"
                             value={task}
+                            disabled={loading}
                             onChange={(e) => setTask(e.target.value)}
                         />
                         <button
@@ -95,6 +97,7 @@ const ToDoFront = () => {
                         </button>
                     </form>
                     <div className="flex flex-wrap w-full gap-3 justify-center py-6">
+                        <Spinner loading={loading} />
                         {!loading &&
                             (todos.length > 0 ? (
                                 todos.map((todo, idx) => (

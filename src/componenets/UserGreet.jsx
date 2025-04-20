@@ -1,8 +1,10 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const UserGreet = () => {
     const [name, setName] = useState("guest");
+    const navigate = useNavigate();
     useEffect(() => {
         const getUsername = async () => {
             try {

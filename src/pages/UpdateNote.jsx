@@ -5,6 +5,7 @@ import { FaSearch } from "react-icons/fa";
 import axios from "axios";
 import { FaPlus } from "react-icons/fa6";
 import { useNavigate, useParams } from "react-router-dom";
+import UserGreet from "../componenets/UserGreet";
 
 const UpdateNote = () => {
     const [name, setName] = useState("guest");
@@ -12,32 +13,6 @@ const UpdateNote = () => {
     const [content, setContent] = useState("");
     const navigate = useNavigate();
     let params = useParams();
-
-    useEffect(() => {
-        const getUsername = async () => {
-            try {
-                let token = localStorage.getItem("jwt_token");
-                let res = await axios({
-                    method: "get",
-                    url: "http://localhost:8080/user/info",
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-                console.log(res.data);
-                setName(res.data.username);
-            } catch (err) {
-                console.log(err);
-                if (err.response.status == 401) {
-                    localStorage.setItem("jwt_token", "");
-
-                    navigate("/login");
-                }
-            }
-        };
-
-        getUsername();
-    }, []);
 
     const updateNote = async () => {
         try {
@@ -102,12 +77,7 @@ const UpdateNote = () => {
         >
             <div className="w-full max-w-[700px] backdrop-blur-[100px] hover:shadow-md shadow-gray-400 m-auto flex flex-col font-serif items-center rounded-xl relative">
                 <Navbar />
-                <p className="text-white text-2xl mt-5 font-bold">
-                    Welcome{" "}
-                    <span className="text-yellow-500">
-                        {name.toUpperCase()}
-                    </span>
-                </p>
+                <UserGreet />
                 <div className="w-full bg-slate-900/60 m-2 rounded-xl flex flex-col mt-4 items-center px-4">
                     <div className="text-xl text-white mt-3 bg-slate-900/70 w-full text-center py-2">
                         Update Note

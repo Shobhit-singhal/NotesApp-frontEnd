@@ -6,10 +6,11 @@ import axios from "axios";
 import { FaPlus } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import UserGreet from "../componenets/UserGreet";
+import Spinner from "../componenets/Spinner";
 
 const UserUi = () => {
     const [search, setSearch] = useState("");
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [notes, setNotes] = useState([]);
     const [name, setName] = useState("guest");
     const navigate = useNavigate();
@@ -85,6 +86,7 @@ const UserUi = () => {
                         </button>
                     </form>
                     <div className="flex flex-wrap w-full gap-3 justify-center py-6">
+                        <Spinner loading={loading} />
                         {!loading &&
                             (notes.length > 0 ? (
                                 notes.map((note, idx) => (
@@ -111,7 +113,9 @@ const UserUi = () => {
                     </div>
                 </div>
                 <div
-                    className="absolute bottom-5 right-5 h-14 w-14 flex items-center justify-center rounded-full bg-orange-300 hover:bg-orange-500 hover:text-white hover:outline-1 hover:scale-105  cursor-pointer"
+                    className={`absolute bottom-5 right-5 h-14 w-14 flex items-center justify-center rounded-full bg-orange-300 hover:bg-orange-500 hover:text-white hover:outline-1 hover:scale-105  cursor-pointer ${
+                        loading ? "hidden" : ""
+                    }`}
                     onClick={handleAdd}
                 >
                     <FaPlus className="text-xl" />
