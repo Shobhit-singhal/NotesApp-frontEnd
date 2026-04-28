@@ -82,7 +82,7 @@ const UpdateNote = () => {
                     <div className="text-xl text-white mt-3 bg-slate-900/70 w-full text-center py-2">
                         Update Note
                     </div>
-                    <form className="w-full my-14 flex flex-col gap-5 ">
+                    <form className="w-full my-14 flex flex-col gap-5 h-auto ">
                         <input
                             type="text "
                             value={title}
@@ -93,7 +93,7 @@ const UpdateNote = () => {
                         <textarea
                             value={content}
                             onChange={(e) => setContent(e.target.value)}
-                            className="text-white px-4 py-2 rounded-xl bg-slate-700 outline-0 resize-none w-full min-h-[150px]"
+                            className="text-white px-4 py-2 rounded-xl bg-slate-700 outline-0 resize-none w-full min-h-[150px] h-auto"
                             placeholder="Enter the content"
                         />
                         <input

@@ -1,12 +1,91 @@
-# React + Vite
+# 📝 Notes & Todo App - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 🚀 Overview
 
-Currently, two official plugins are available:
+This is the frontend for a full-stack Notes & Todo application built using React.  
+It provides a clean user interface for managing notes and tasks, with secure authentication and seamless integration with the backend APIs.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 🔥 Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- User login and registration UI
+- Create, update, and delete notes
+- Manage todo tasks
+- API integration with Spring Boot backend
+- Responsive UI using Tailwind CSS
+
+---
+
+## 🛠 Tech Stack
+
+- React
+- Tailwind CSS
+- JavaScript
+- Axios (for API calls)
+- Vite
+
+---
+
+## 🔗 Backend Repository
+
+👉 https://github.com/Shobhit-singhal/notesApp-backend
+
+---
+
+## ⚙️ How to Run Locally
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/Shobhit-singhal/NotesApp-frontEnd
+cd NotesApp-frontEnd
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+### 3. Run the app
+
+```bash
+npm run dev
+```
+
+---
+
+## 🌐 API Integration
+
+- Connects to backend APIs for authentication and data management
+- Uses JWT tokens for secure requests
+
+---
+
+## 📸 Screenshots
+
+### 🔐 Login Page
+
+![Login](./screenshots/login.png)
+
+### 📝 Notes Dashboard
+
+![Notes](./screenshots/notes.png)
+
+### ✅ Todo Section
+
+![Todo](./screenshots/todo.png)
+
+## 📈 Future Improvements
+
+- Improve UI/UX design
+- Add loading states and better error handling
+- Deploy frontend (Vercel / Netlify)
+- Add animations and transitions
+
+---
+
+## 👨‍💻 Author
+
+Shobhit Singhal
