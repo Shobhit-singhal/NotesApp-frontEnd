@@ -15,6 +15,7 @@ It provides a clean user interface for managing notes and tasks, with secure aut
 - API integration with Spring Boot backend
 - Responsive UI using Tailwind CSS
 
+
 ---
 
 ## 🛠 Tech Stack
